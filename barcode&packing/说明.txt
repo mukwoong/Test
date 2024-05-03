@@ -1,0 +1,17 @@
+bar.py
+'bar-sku.xlsx'要求sku在第一列格式为'SU24253-1'无多余内容
+'barcode.xlsx'
+输出两个文档。1.selected_data,2.sum_data
+
+web.py
+'web.xlsx'
+'po.xlsx'
+'all-sku.xlsx'
+输出一个文档result_combined
+
+invoice.py
+'all-sku.xlsx'
+'po.xlsx'
+'web.xlsx'
+'hs-code.xlsx'
+输出一个文档invoice_output
