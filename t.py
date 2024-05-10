@@ -1,5 +1,7 @@
 import pandas as pd
 
+
+# packing file和0all-sku.file
 def fill_blank_cells(df):
     for i in range(1, len(df)):
         # 填充第一列空白-根据上一个值
@@ -11,10 +13,11 @@ df = pd.read_excel("1ws.xlsx")
 # 提前处理空白项目
 df = fill_blank_cells(df)
 
-# 示例1
 subset = df[df.iloc[:, 0] == "SP24322-1"]
+
+# packing file
 def get_size_sum():
-    # 尺码(4-12列)S
+    # 尺码(4-12列)
     size = subset.iloc[:, 3:12]
     # 这里不能直接将nan转成int，后面相加之后的float才可以
     size = size.astype(float)
@@ -23,8 +26,11 @@ def get_size_sum():
     col_sum_list = col_sum.astype(int).tolist()
 
     print(col_sum_list)
-# 价格(14列)
-#price = subset.iloc[0, 14]
+
+# 0all-sku.file
+def get_price():
+    # 价格(14列)
+    price = subset.iloc[0, 14]
 
 def get_po():
     # po号
@@ -37,4 +43,6 @@ def get_po():
         result_dict['SU24215-1'][row.iloc[-2]] = row.iloc[-3]
 
     print(result_dict)
+    # 返回sku对应字典
+    return result_dict
 
