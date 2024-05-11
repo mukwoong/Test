@@ -16,16 +16,18 @@ def get_po(skus):
         # 填充第一列空白-根据上一个值
         if pd.isnull(df.iloc[i, 0]):
             df.iat[i, 0] = df.iat[i-1, 0]
-    for sku in skus:
-        subset = df[df.iloc[:, 0] == sku]
-        # po号
-        po = subset.iloc[:, -3]
-        result_dict = {sku: {}}
 
+    result_dict = {}
+    for sku in skus:
+        result_dict[sku] = {}
+
+        subset = df[df.iloc[:, 0] == sku]
+        po = subset.iloc[:, -3]
+        
         for index, row in subset.iterrows():
-            # [row.iloc[-2]]是key如"web",-3是值
-            result_dict[sku][row.iloc[-2]] = row.iloc[-3]
-        return result_dict
+            result_dict[sku][row.iloc[-2]] = row.iloc[-3]  
+        
+    return result_dict
 
 
 def extract_skus_from_excel(file_path):
@@ -45,13 +47,10 @@ def extract_skus_from_excel(file_path):
 uniqe_ws_skus = {'SU24637-1', 'SU24546-1', 'SU24619-2', 'SU24210-2', 'SU24210-1'}
 
 result = get_po(uniqe_ws_skus)
-data_list = [ast.literal_eval(item) for item in data_str.split('\n')]
 
-# 打印每个键对应的 'RT' 值
-for item in data_list:
-    for key, value in item.items():
-        if 'RT' in value:
-            print(f"Key: {key}, RT Value: {value['RT']}")
-
+print(result)
 #如果多个
 # merged_set = ws_skus.union(web_skus)
+
+df = pd.DataFrame(result).T
+print(df)
